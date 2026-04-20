@@ -28,8 +28,19 @@ def normalize_atom(value: object, prefix: str = "x") -> str:
     return text
 
 
+def sanitize_display_text(value: object) -> str:
+    text = str(value).strip()
+    text = text.replace("\\", "/").replace("'", "’")
+    text = unicodedata.normalize("NFKD", text)
+    text = "".join(char for char in text if not unicodedata.combining(char))
+    text = re.sub(r"[\r\n\t]+", " ", text)
+    text = re.sub(r"[^A-Za-z0-9 .,!:;()\\[\\]\\-+/&%®™’]", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text or "Sem nome"
+
+
 def prolog_string(value: object) -> str:
-    text = str(value).replace("\\", "\\\\").replace("'", "\\'")
+    text = sanitize_display_text(value)
     return f"'{text}'"
 
 
@@ -46,7 +57,18 @@ def main() -> None:
 
     df = pd.read_csv(INPUT_FILE, keep_default_na=False)
 
-    lines = [
+    sections: dict[str, list[str]] = {
+        "nome": [],
+        "genero": [],
+        "preco": [],
+        "avaliacao": [],
+        "ano": [],
+        "plataforma": [],
+        "publisher": [],
+        "popularidade": [],
+    }
+
+    header_lines = [
         "% Base de conhecimento gerada automaticamente.",
         "% Nao edite este arquivo manualmente; use etl/generate_prolog.py.",
         "",
@@ -57,17 +79,36 @@ def main() -> None:
         genero = normalize_atom(row.genero)
         publisher = normalize_atom(row.publisher)
 
-        write_fact(lines, "nome", jogo, prolog_string(row.nome))
-        write_fact(lines, "genero", jogo, genero)
-        write_fact(lines, "preco", jogo, round(float(row.preco), 2))
-        write_fact(lines, "avaliacao", jogo, int(row.avaliacao))
-        write_fact(lines, "ano", jogo, int(row.ano))
+        write_fact(sections["nome"], "nome", jogo, prolog_string(row.nome))
+        write_fact(sections["genero"], "genero", jogo, genero)
+        write_fact(sections["preco"], "preco", jogo, round(float(row.preco), 2))
+        write_fact(sections["avaliacao"], "avaliacao", jogo, int(row.avaliacao))
+        write_fact(sections["ano"], "ano", jogo, int(row.ano))
 
         for plataforma in str(row.plataformas).split(";"):
-            write_fact(lines, "plataforma", jogo, normalize_atom(plataforma))
+            write_fact(
+                sections["plataforma"],
+                "plataforma",
+                jogo,
+                normalize_atom(plataforma),
+            )
 
-        write_fact(lines, "publisher", jogo, publisher)
-        write_fact(lines, "popularidade", jogo, int(row.popularidade))
+        write_fact(sections["publisher"], "publisher", jogo, publisher)
+        write_fact(sections["popularidade"], "popularidade", jogo, int(row.popularidade))
+
+    lines = list(header_lines)
+    for predicate in [
+        "nome",
+        "genero",
+        "preco",
+        "avaliacao",
+        "ano",
+        "plataforma",
+        "publisher",
+        "popularidade",
+    ]:
+        lines.append(f"% Fatos de {predicate}/2")
+        lines.extend(sections[predicate])
         lines.append("")
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
