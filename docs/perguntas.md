@@ -69,6 +69,7 @@ Essa pergunta exige comparacao entre candidatos.
 O melhor jogo e definido como aquele que:
 
 - pertence ao genero consultado;
+- e popular dentro da base;
 - nao possui outro jogo do mesmo genero com avaliacao maior;
 - em caso de empate, vence o mais popular.
 

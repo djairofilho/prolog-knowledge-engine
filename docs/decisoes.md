@@ -63,10 +63,10 @@ Essa faixa ajuda a diferenciar jogos baratos de jogos premium.
 Um jogo e considerado bem avaliado quando:
 
 ```text
-avaliacao >= 80
+avaliacao >= 85
 ```
 
-Esse limite representa jogos com recepcao majoritariamente positiva.
+Esse limite foi ajustado apos os primeiros testes no SWI-Prolog para reduzir resultados muito amplos e destacar jogos com recepcao realmente forte.
 
 ### Jogo excelente
 
@@ -83,17 +83,17 @@ Esse criterio destaca jogos com desempenho muito forte em satisfacao dos usuario
 Um jogo e considerado popular quando:
 
 ```text
-popularidade >= 10000
+popularidade >= 5000
 ```
 
-A popularidade foi baseada no numero total de reviews.
+A popularidade foi baseada no numero total de reviews. O valor inicial de 10000 mostrou-se restritivo demais, entao foi reduzido para 5000 para equilibrar relevancia e cobertura.
 
 ### Jogo muito popular
 
 Um jogo e considerado muito popular quando:
 
 ```text
-popularidade >= 100000
+popularidade >= 50000
 ```
 
 Esse nivel destaca jogos com grande volume de interacao no dataset.
@@ -103,10 +103,10 @@ Esse nivel destaca jogos com grande volume de interacao no dataset.
 Um jogo e considerado recente quando:
 
 ```text
-ano >= 2020
+ano >= 2022
 ```
 
-Esse criterio permite consultas focadas em lancamentos mais novos.
+Esse criterio foi ajustado para privilegiar lancamentos realmente recentes nas consultas.
 
 ## Estrategia de Recomendacao
 
@@ -140,3 +140,21 @@ Quando for necessario escolher o melhor jogo entre varios candidatos, o desempat
 2. em caso de empate, maior popularidade.
 
 Esse criterio sera usado em consultas como melhor jogo de um genero.
+
+Para evitar que jogos muito obscuros dominem essa consulta apenas por nota alta, o predicado `melhor_do_genero/2` considera apenas jogos populares dentro do genero analisado.
+
+## Ajuste Apos Execucao Real
+
+Depois da instalacao e dos testes no SWI-Prolog, os parametros foram recalibrados para melhorar o equilibrio entre qualidade e quantidade de resultados:
+
+- `jogo_bem_avaliado/1`: `avaliacao >= 85`
+- `jogo_popular/1`: `popularidade >= 5000`
+- `jogo_muito_popular/1`: `popularidade >= 50000`
+- `jogo_recente/1`: `ano >= 2022`
+
+Com essa calibracao, os volumes observados nas consultas principais ficaram aproximadamente assim:
+
+- `recomendado_custo_beneficio/1`: 1409 jogos
+- `recomendado_por_genero_e_plataforma(_, action, windows)`: 747 jogos
+- `recomendado_lancamento_promissor(_, windows)`: 384 jogos
+- `recomendado_destaque/1`: 186 jogos
