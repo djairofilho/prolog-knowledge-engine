@@ -1,6 +1,7 @@
 # Perguntas do Projeto
 
-As perguntas abaixo foram definidas para explorar a base de conhecimento de forma mais rica do que simples filtros.
+As perguntas abaixo exploram a base de conhecimento de forma mais rica do que filtros simples.
+Elas combinam regras, comparacoes e, em um caso, ordenacao com `setof/3`.
 
 ## Pergunta 1
 
@@ -21,6 +22,12 @@ Combina:
 recomendado_por_genero_e_plataforma(Jogo, Genero, Plataforma)
 ```
 
+### Consulta executavel
+
+```prolog
+consulta_1(Resultados)
+```
+
 ## Pergunta 2
 
 Quais jogos apresentam bom custo-beneficio?
@@ -37,6 +44,12 @@ Combina:
 
 ```prolog
 recomendado_custo_beneficio(Jogo)
+```
+
+### Consulta executavel
+
+```prolog
+consulta_2(Resultados)
 ```
 
 ## Pergunta 3
@@ -56,6 +69,12 @@ Combina:
 
 ```prolog
 recomendado_lancamento_promissor(Jogo, Plataforma)
+```
+
+### Consulta executavel
+
+```prolog
+consulta_3(Resultados)
 ```
 
 ## Pergunta 4
@@ -79,6 +98,12 @@ O melhor jogo e definido como aquele que:
 melhor_do_genero(Genero, Jogo)
 ```
 
+### Consulta executavel
+
+```prolog
+consulta_4(Resultado)
+```
+
 ## Pergunta 5
 
 Quais jogos excelentes e muito populares valem recomendacao imediata?
@@ -96,11 +121,39 @@ Combina:
 recomendado_destaque(Jogo)
 ```
 
+### Consulta executavel
+
+```prolog
+consulta_5(Resultados)
+```
+
+## Consulta extra para fortalecer a entrega
+
+Quais sao os jogos mais fortes de um genero quando ordenamos os candidatos por avaliacao e popularidade?
+
+### Ideia logica
+
+Essa consulta adiciona ordenacao explicita sobre a base:
+
+- seleciona apenas jogos populares do genero informado;
+- monta tuplas com nota, popularidade e nome;
+- usa `setof/3` para gerar uma lista ordenada;
+- inverte a ordem para destacar os melhores primeiro.
+
+### Predicados
+
+```prolog
+ranking_genero(Genero, RankingDesc)
+top_3_do_genero(Genero, Top3)
+```
+
 ## Observacao
 
-As perguntas 1, 2, 3 e 4 sao as mais importantes para a entrega, porque demonstram:
+As perguntas principais demonstram:
 
 - composicao de regras;
 - comparacao numerica;
 - uso de predicados auxiliares;
-- selecao baseada em multiplos criterios.
+- selecao por multiplos criterios.
+
+A consulta extra reforca o criterio de sofisticacao ao incluir ordenacao declarativa com Prolog.

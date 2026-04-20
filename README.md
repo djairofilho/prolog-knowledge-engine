@@ -2,240 +2,154 @@
 
 Projeto academico da disciplina de Logica e Matematica Discreta.
 
-O objetivo e construir um pequeno motor de conhecimento em Prolog a partir de um dataset publico de jogos. A base deve permitir responder perguntas por meio de fatos, regras logicas e queries, funcionando como um recomendador simbolico baseado em conteudo.
+O objetivo e construir um motor de conhecimento em Prolog a partir de um dataset publico de jogos. A base responde perguntas por meio de fatos, regras logicas e consultas executaveis, funcionando como um recomendador simbolico baseado em conteudo.
 
 ## Tema
 
 Sistema de recomendacao de jogos usando Prolog.
 
-O sistema utiliza atributos como genero, preco, avaliacao, ano, plataforma, publisher e popularidade para recomendar jogos com base em regras declarativas.
+O projeto utiliza atributos como genero, preco, avaliacao, ano, plataforma, publisher e popularidade para recomendar jogos com base em regras declarativas.
 
 ## Fonte dos Dados
 
-Dataset utilizado:
+Fonte oficial do dataset:
 
-[Steam Games Dataset 2025 (Kaggle)](https://www.kaggle.com/datasets/artermiloff/steam-games-dataset)
+- [Steam Games Dataset 2025 - Kaggle](https://www.kaggle.com/datasets/artermiloff/steam-games-dataset)
 
-Tabela-fonte utilizada no projeto:
+Tabela-fonte utilizada:
 
 ```text
 games_march2025_cleaned.csv
 ```
 
-Esse arquivo pertence ao dataset acima e foi escolhido como fonte unica da base de conhecimento.
+Esse arquivo e a unica fonte de dados usada na base de conhecimento.
 
 ## Arquitetura
 
-Fluxo principal do projeto:
+Fluxo principal:
 
 ```text
 Dataset CSV bruto
-        ↓
-Limpeza e selecao de campos em Python
-        ↓
-CSV tratado
-        ↓
-Geracao automatica de fatos Prolog
-        ↓
-Base de conhecimento
-        ↓
-Regras logicas
-        ↓
-Queries de recomendacao
+-> limpeza e selecao de campos em Python
+-> CSV tratado
+-> geracao automatica de fatos Prolog
+-> base de conhecimento
+-> regras logicas
+-> consultas executaveis
 ```
 
 ## Estrutura de Pastas
 
 ```text
 projeto/
-│
-├── data/
-│   ├── raw/
-│   │   └── games.csv
-│   │
-│   └── processed/
-│       └── games_clean.csv
-│
-├── etl/
-│   ├── download_dataset.py
-│   ├── clean_dataset.py
-│   └── generate_prolog.py
-│
-├── prolog/
-│   ├── generated/
-│   │   └── base_conhecimento.pl
-│   ├── src/
-│   │   ├── regras.pl
-│   │   └── queries.pl
-│   └── main.pl
-│
-├── docs/
-│   ├── arquitetura.md
-│   ├── dataset.md
-│   ├── perguntas.md
-│   └── decisoes.md
-│
-└── README.md
+|-- data/
+|   |-- raw/
+|   |   `-- games_march2025_cleaned.csv
+|   `-- processed/
+|       `-- games_clean.csv
+|-- docs/
+|   |-- arquitetura.md
+|   |-- dataset.md
+|   |-- decisoes.md
+|   `-- perguntas.md
+|-- etl/
+|   |-- clean_dataset.py
+|   |-- download_dataset.py
+|   `-- generate_prolog.py
+|-- prolog/
+|   |-- generated/
+|   |   `-- base_conhecimento.pl
+|   |-- src/
+|   |   |-- queries.pl
+|   |   `-- regras.pl
+|   `-- main.pl
+|-- pyproject.toml
+|-- uv.lock
+`-- README.md
 ```
 
 ## Responsabilidade dos Arquivos
 
-### `data/raw/games.csv`
+### `data/raw/games_march2025_cleaned.csv`
 
-Arquivo CSV original do dataset publico.
-
-Este arquivo deve representar a tabela-fonte escolhida para o projeto. A ideia e manter o dado bruto separado dos dados tratados.
+Arquivo CSV bruto baixado da Kaggle. Ele representa a tabela-fonte unica do projeto e nao deve ser editado manualmente.
 
 ### `data/processed/games_clean.csv`
 
-Arquivo CSV tratado, gerado pelo script de limpeza.
-
-Deve conter apenas os campos selecionados para o projeto, ja padronizados e prontos para serem convertidos em fatos Prolog.
-
-### `etl/clean_dataset.py`
-
-Script Python responsavel por:
-
-- ler o CSV bruto;
-- selecionar entre 6 e 10 campos;
-- tratar valores ausentes;
-- padronizar textos;
-- converter dados numericos;
-- gerar `data/processed/games_clean.csv`.
+CSV tratado pelo ETL. Contem apenas os campos selecionados e padronizados para a geracao da base Prolog.
 
 ### `etl/download_dataset.py`
 
-Script Python responsavel por baixar o arquivo `games_march2025_cleaned.csv` do dataset da Kaggle para `data/raw/`.
+Baixa o arquivo `games_march2025_cleaned.csv` para `data/raw/`.
 
-O dataset bruto e grande, por isso nao deve ser versionado no Git.
+### `etl/clean_dataset.py`
+
+Le o CSV bruto, seleciona os campos do projeto, trata ausencias, padroniza valores e gera `data/processed/games_clean.csv`.
 
 ### `etl/generate_prolog.py`
 
-Script Python responsavel por:
-
-- ler `data/processed/games_clean.csv`;
-- transformar cada jogo em fatos Prolog;
-- gerar ou atualizar `prolog/generated/base_conhecimento.pl`.
+Converte o CSV tratado em fatos Prolog e gera `prolog/generated/base_conhecimento.pl`.
 
 ### `prolog/generated/base_conhecimento.pl`
 
-Arquivo com os fatos Prolog gerados automaticamente.
+Arquivo gerado automaticamente com os fatos da base.
 
-Exemplo esperado:
+Exemplo:
 
 ```prolog
-nome(hades, 'Hades').
-genero(hades, roguelike).
-preco(hades, 49.99).
-avaliacao(hades, 97).
-ano(hades, 2020).
-plataforma(hades, pc).
-publisher(hades, supergiant_games).
-popularidade(hades, 120000).
+nome(app_1145360, 'Hades').
+genero(app_1145360, action).
+preco(app_1145360, 73.99).
+avaliacao(app_1145360, 98).
+ano(app_1145360, 2020).
+plataforma(app_1145360, windows).
+publisher(app_1145360, supergiant_games).
+popularidade(app_1145360, 251000).
 ```
 
 ### `prolog/src/regras.pl`
 
-Arquivo com as regras logicas do recomendador.
+Contem as regras logicas do recomendador, como:
 
-Exemplos de regras que podem existir:
-
-```prolog
-jogo_bem_avaliado(Jogo) :-
-    avaliacao(Jogo, Nota),
-    Nota >= 85.
-
-jogo_barato(Jogo) :-
-    preco(Jogo, Preco),
-    Preco =< 30.
-
-recomendado_custo_beneficio(Jogo) :-
-    jogo_bem_avaliado(Jogo),
-    jogo_barato(Jogo).
-```
+- jogo barato;
+- jogo bem avaliado;
+- jogo popular;
+- recomendado por genero e plataforma;
+- melhor jogo de um genero;
+- destaque absoluto da base.
 
 ### `prolog/src/queries.pl`
 
-Arquivo com perguntas de exemplo para testar o sistema.
-
-Exemplos:
-
-```prolog
-% Quais jogos tem bom custo-beneficio?
-% recomendado_custo_beneficio(Jogo), nome(Jogo, Nome).
-
-% Quais jogos de RPG sao bem avaliados?
-% genero(Jogo, rpg), jogo_bem_avaliado(Jogo), nome(Jogo, Nome).
-```
+Contem consultas executaveis para demonstracao do projeto. Alem das cinco consultas principais, o arquivo inclui uma consulta com ordenacao declarativa usando `setof/3`.
 
 ### `prolog/main.pl`
 
-Arquivo principal para carregar toda a base Prolog do projeto.
+Ponto de entrada do projeto Prolog. Carrega a base gerada, as regras e as consultas.
 
-Ele deve consultar:
+### `docs/`
 
-- a base gerada em `prolog/generated/`;
-- as regras em `prolog/src/`;
-- as queries em `prolog/src/`.
+Documentacao de apoio:
 
-### `docs/dataset.md`
+- `dataset.md`: origem e recorte do dataset;
+- `arquitetura.md`: organizacao do projeto;
+- `decisoes.md`: criterios adotados nas regras;
+- `perguntas.md`: perguntas do trabalho e sua logica.
 
-Anotacoes sobre o dataset usado:
+## Campos Selecionados
 
-- fonte;
-- link;
-- tabela escolhida;
-- campos originais;
-- campos selecionados;
-- criterios de limpeza.
-
-### `docs/arquitetura.md`
-
-Documento com a explicacao da arquitetura do projeto e da separacao entre ETL, base gerada e logica escrita manualmente.
-
-### `docs/perguntas.md`
-
-Documento para registrar as perguntas respondidas pelo sistema.
-
-O projeto deve ter pelo menos 3 perguntas implementadas em Prolog. Para uma entrega mais forte, elas devem usar composicao de regras, comparacoes, agregacoes ou ordenacao.
-
-### `docs/decisoes.md`
-
-Registro das principais decisoes do projeto, como:
-
-- campos escolhidos;
-- criterios para considerar um jogo barato;
-- criterios para considerar um jogo bem avaliado;
-- regras de recomendacao adotadas.
-
-## Campos Sugeridos
-
-Uma selecao inicial equilibrada entre variaveis qualitativas e quantitativas:
+O projeto trabalha com 9 campos, misturando variaveis qualitativas e quantitativas:
 
 | Campo | Tipo | Uso |
 |---|---|---|
-| `game_id` | identificador | chave do jogo no Prolog |
-| `nome` | qualitativo | nome exibido |
-| `genero` | qualitativo | recomendacao por preferencia |
-| `preco` | quantitativo | filtros de orcamento |
+| `game_id` | identificador | chave do jogo na base |
+| `nome` | qualitativo | exibicao |
+| `genero` | qualitativo | preferencia do usuario |
+| `preco` | quantitativo | custo-beneficio |
 | `avaliacao` | quantitativo | qualidade percebida |
-| `ano` | quantitativo | jogos recentes ou classicos |
-| `plataforma` | qualitativo | compatibilidade |
-| `publisher` | qualitativo | afinidade com empresa |
-| `popularidade` | quantitativo | numero de avaliacoes ou reviews |
-
-## Passos pensados para fazer atividade
-
-1. Escolher o dataset publico de jogos.
-2. Colocar o arquivo original em `data/raw/games.csv`.
-3. Definir os campos oficiais do projeto.
-4. Implementar `etl/clean_dataset.py`.
-5. Gerar `data/processed/games_clean.csv`.
-6. Implementar `etl/generate_prolog.py`.
-7. Gerar `prolog/generated/base_conhecimento.pl`.
-8. Implementar regras em `prolog/src/regras.pl`.
-9. Escrever pelo menos 3 perguntas em `prolog/src/queries.pl`.
-10. Documentar dataset, perguntas e decisoes em `docs/`.
+| `ano` | quantitativo | recencia |
+| `plataformas` | qualitativo | compatibilidade |
+| `publisher` | qualitativo | contexto editorial |
+| `popularidade` | quantitativo | relevancia na base |
 
 ## Como Executar
 
@@ -251,10 +165,6 @@ Baixe o CSV bruto da Kaggle:
 uv run python etl/download_dataset.py
 ```
 
-Fonte oficial do dataset:
-
-[Steam Games Dataset 2025 (Kaggle)](https://www.kaggle.com/datasets/artermiloff/steam-games-dataset)
-
 Gere o CSV tratado e a base Prolog:
 
 ```bash
@@ -262,110 +172,133 @@ uv run python etl/clean_dataset.py
 uv run python etl/generate_prolog.py
 ```
 
-No SWI-Prolog:
+Carregue o projeto no SWI-Prolog:
+
+```bash
+swipl -q -s prolog/main.pl
+```
+
+Se preferir abrir o interpretador primeiro:
 
 ```prolog
 consult('prolog/main.pl').
 ```
 
-Depois execute as queries documentadas em `prolog/src/queries.pl`.
+## Regras principais
 
-Em modo de linha de comando, um comando valido e:
+Alguns criterios da base:
 
-```bash
-swipl -q -s prolog/main.pl
-```
+- `jogo_barato/1`: preco menor ou igual a `20`;
+- `jogo_preco_intermediario/1`: preco entre `20` e `50`;
+- `jogo_bem_avaliado/1`: nota maior ou igual a `85`;
+- `jogo_popular/1`: popularidade maior ou igual a `5000`;
+- `jogo_muito_popular/1`: popularidade maior ou igual a `50000`;
+- `jogo_recente/1`: ano maior ou igual a `2022`.
 
-## Como Executar as Queries
+## Consultas do Projeto
 
-1. Abra o projeto no terminal.
-2. Inicie o SWI-Prolog:
+As consultas abaixo podem ser executadas diretamente no prompt do Prolog.
 
-```bash
-swipl -q -s prolog/main.pl
-```
+### Consulta 1
 
-3. No prompt do Prolog, execute consultas como estas:
+Jogos `action` para `windows` recomendados pela base:
 
 ```prolog
-recomendado_custo_beneficio(Jogo), nome(Jogo, Nome).
+consulta_1(Resultados).
 ```
 
 Resposta esperada:
 
 ```prolog
-Jogo = app_730,
-Nome = 'Counter-Strike 2' ;
+Resultados = [Counter-Strike 2, Grand Theft Auto V Legacy, Team Fortress 2 | ...].
 ```
 
+### Consulta 2
+
+Jogos com bom custo-beneficio:
+
 ```prolog
-recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome).
+consulta_2(Resultados).
 ```
 
 Resposta esperada:
 
 ```prolog
-Jogo = app_730,
-Nome = 'Counter-Strike 2' ;
+Resultados = [Counter-Strike 2-0.0-86, Grand Theft Auto V Legacy-0.0-87, Team Fortress 2-0.0-89 | ...].
 ```
 
+### Consulta 3
+
+Lancamentos promissores para `windows`:
+
 ```prolog
-recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome).
+consulta_3(Resultados).
 ```
 
 Resposta esperada:
 
 ```prolog
-Jogo = app_730449,
-Nome = 'Black Myth: Wukong' ;
+Resultados = [Black Myth: Wukong-2024, ELDEN RING-2022, Baldur's Gate 3-2023 | ...].
 ```
 
+### Consulta 4
+
+Melhor jogo de `rpg` segundo os criterios da base:
+
 ```prolog
-melhor_do_genero(rpg, Jogo), nome(Jogo, Nome).
+consulta_4(Resultado).
 ```
 
 Resposta esperada:
 
 ```prolog
-Jogo = app_1113000,
-Nome = 'Persona 4 Golden'.
+Resultado = Persona 4 Golden-97-64224.
 ```
 
+### Consulta 5
+
+Destaques absolutos da base:
+
 ```prolog
-recomendado_destaque(Jogo), nome(Jogo, Nome).
+consulta_5(Resultados).
 ```
 
 Resposta esperada:
 
 ```prolog
-Jogo = app_105600,
-Nome = 'Terraria' ;
+Resultados = [Terraria-97-1102434, Garry's Mod-96-985010, Black Myth: Wukong-96-825621 | ...].
 ```
 
-Observacao:
+### Consulta extra
 
-- o Prolog normalmente mostra uma resposta por vez;
-- digite `;` para pedir a proxima;
-- pressione Enter para encerrar a consulta atual.
-
-4. Para recarregar os arquivos depois de alguma alteracao:
+Top 3 jogos de um genero com ordenacao declarativa:
 
 ```prolog
-make.
+top_3_do_genero(action, Top3).
 ```
 
-5. Para sair do SWI-Prolog:
+Resposta esperada:
 
 ```prolog
-halt.
+Top3 = [99-37057-HoloCure - Save the Fans!, 99-10014-Papa's Freezeria Deluxe, 99-9221-The WereCleaner].
 ```
 
-## Boas Praticas
+Essa consulta extra reforca o criterio de sofisticacao porque usa ordenacao com `setof/3`, comparacao numerica e composicao de regras.
 
-- Manter `data/raw/games.csv` sem alteracoes manuais.
-- Gerar `data/processed/games_clean.csv` sempre via ETL.
-- Gerar `prolog/generated/base_conhecimento.pl` automaticamente.
-- Separar arquivos gerados de arquivos escritos manualmente.
-- Usar nomes normalizados para identificadores Prolog.
-- Criar regras compostas, nao apenas filtros simples.
-- Manter a arquitetura pequena, clara e facil de apresentar.
+## Dicas de uso no SWI-Prolog
+
+- digite `;` para pedir mais respostas quando a consulta nao retorna lista pronta;
+- use `make.` para recarregar os arquivos apos alguma alteracao;
+- use `halt.` para sair do interpretador.
+
+## Relacao com o enunciado
+
+O projeto foi estruturado para atender ao trabalho da disciplina:
+
+- uma unica tabela-fonte do dataset publico;
+- entre 6 e 10 campos selecionados;
+- mistura de atributos qualitativos e quantitativos;
+- ETL em Python;
+- base gerada automaticamente em Prolog;
+- perguntas respondidas com consultas em Prolog;
+- regras que vao alem de filtros simples.
