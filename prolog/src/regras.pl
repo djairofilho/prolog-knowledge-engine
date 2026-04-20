@@ -18,6 +18,10 @@ jogo_excelente(Jogo) :-
     avaliacao(Jogo, Nota),
     Nota >= 90.
 
+jogo_mal_avaliado(Jogo) :-
+    avaliacao(Jogo, Nota),
+    Nota =< 50.
+
 jogo_popular(Jogo) :-
     popularidade(Jogo, Popularidade),
     Popularidade >= 5000.
@@ -52,6 +56,11 @@ mais_popular_que(Jogo1, Jogo2) :-
     popularidade(Jogo2, Pop2),
     Pop1 > Pop2.
 
+menos_popular_que(Jogo1, Jogo2) :-
+    popularidade(Jogo1, Pop1),
+    popularidade(Jogo2, Pop2),
+    Pop1 < Pop2.
+
 recomendado_custo_beneficio(Jogo) :-
     jogo_bem_avaliado(Jogo),
     jogo_popular(Jogo),
@@ -77,6 +86,36 @@ recomendado_destaque(Jogo) :-
     jogo_excelente(Jogo),
     jogo_muito_popular(Jogo).
 
+classificacao_jogo(Jogo, barato) :-
+    jogo_barato(Jogo).
+
+classificacao_jogo(Jogo, preco_intermediario) :-
+    jogo_preco_intermediario(Jogo).
+
+classificacao_jogo(Jogo, bem_avaliado) :-
+    jogo_bem_avaliado(Jogo).
+
+classificacao_jogo(Jogo, excelente) :-
+    jogo_excelente(Jogo).
+
+classificacao_jogo(Jogo, popular) :-
+    jogo_popular(Jogo).
+
+classificacao_jogo(Jogo, muito_popular) :-
+    jogo_muito_popular(Jogo).
+
+classificacao_jogo(Jogo, recente) :-
+    jogo_recente(Jogo).
+
+classificacao_jogo(Jogo, classico) :-
+    jogo_classico(Jogo).
+
+classificacao_jogo(Jogo, custo_beneficio) :-
+    recomendado_custo_beneficio(Jogo).
+
+classificacao_jogo(Jogo, destaque) :-
+    recomendado_destaque(Jogo).
+
 melhor_do_genero(Genero, Jogo) :-
     genero(Jogo, Genero),
     jogo_popular(Jogo),
@@ -91,6 +130,22 @@ melhor_do_genero(Genero, Jogo) :-
                 avaliacao(OutroJogo, Nota),
                 avaliacao(Jogo, Nota),
                 mais_popular_que(OutroJogo, Jogo)
+            )
+        )
+    ).
+
+pior_do_genero(Genero, Jogo) :-
+    genero(Jogo, Genero),
+    \+ (
+        genero(OutroJogo, Genero),
+        OutroJogo \= Jogo,
+        (
+            melhor_avaliado_que(Jogo, OutroJogo)
+        ;
+            (
+                avaliacao(OutroJogo, Nota),
+                avaliacao(Jogo, Nota),
+                menos_popular_que(Jogo, OutroJogo)
             )
         )
     ).
