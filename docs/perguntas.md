@@ -22,10 +22,10 @@ Combina:
 recomendado_por_genero_e_plataforma(Jogo, Genero, Plataforma)
 ```
 
-### Consulta executavel
+### Consulta sugerida para apresentacao
 
 ```prolog
-consulta_1(Resultados)
+recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome)
 ```
 
 ## Pergunta 2
@@ -46,10 +46,10 @@ Combina:
 recomendado_custo_beneficio(Jogo)
 ```
 
-### Consulta executavel
+### Consulta sugerida para apresentacao
 
 ```prolog
-consulta_2(Resultados)
+recomendado_custo_beneficio(Jogo), nome(Jogo, Nome), preco(Jogo, Preco), avaliacao(Jogo, Nota)
 ```
 
 ## Pergunta 3
@@ -71,10 +71,10 @@ Combina:
 recomendado_lancamento_promissor(Jogo, Plataforma)
 ```
 
-### Consulta executavel
+### Consulta sugerida para apresentacao
 
 ```prolog
-consulta_3(Resultados)
+recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome), ano(Jogo, Ano)
 ```
 
 ## Pergunta 4
@@ -98,10 +98,10 @@ O melhor jogo e definido como aquele que:
 melhor_do_genero(Genero, Jogo)
 ```
 
-### Consulta executavel
+### Consulta sugerida para apresentacao
 
 ```prolog
-consulta_4(Resultado)
+melhor_do_genero(rpg, Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade)
 ```
 
 ## Pergunta 5
@@ -121,10 +121,10 @@ Combina:
 recomendado_destaque(Jogo)
 ```
 
-### Consulta executavel
+### Consulta sugerida para apresentacao
 
 ```prolog
-consulta_5(Resultados)
+recomendado_destaque(Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade)
 ```
 
 ## Consulta extra para fortalecer a entrega
@@ -157,3 +157,5 @@ As perguntas principais demonstram:
 - selecao por multiplos criterios.
 
 A consulta extra reforca o criterio de sofisticacao ao incluir ordenacao declarativa com Prolog.
+
+As consultas auxiliares `consulta_1/1` ate `consulta_5/1` continuam uteis para gerar listas agregadas durante testes e demonstracoes.

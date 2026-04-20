@@ -204,13 +204,14 @@ As consultas abaixo podem ser executadas diretamente no prompt do Prolog.
 Jogos `action` para `windows` recomendados pela base:
 
 ```prolog
-consulta_1(Resultados).
+recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome).
 ```
 
 Resposta esperada:
 
 ```prolog
-Resultados = [Counter-Strike 2, Grand Theft Auto V Legacy, Team Fortress 2 | ...].
+Jogo = app_730,
+Nome = 'Counter-Strike 2' ;
 ```
 
 ### Consulta 2
@@ -218,13 +219,16 @@ Resultados = [Counter-Strike 2, Grand Theft Auto V Legacy, Team Fortress 2 | ...
 Jogos com bom custo-beneficio:
 
 ```prolog
-consulta_2(Resultados).
+recomendado_custo_beneficio(Jogo), nome(Jogo, Nome), preco(Jogo, Preco), avaliacao(Jogo, Nota).
 ```
 
 Resposta esperada:
 
 ```prolog
-Resultados = [Counter-Strike 2-0.0-86, Grand Theft Auto V Legacy-0.0-87, Team Fortress 2-0.0-89 | ...].
+Jogo = app_730,
+Nome = 'Counter-Strike 2',
+Preco = 0.0,
+Nota = 86 ;
 ```
 
 ### Consulta 3
@@ -232,13 +236,15 @@ Resultados = [Counter-Strike 2-0.0-86, Grand Theft Auto V Legacy-0.0-87, Team Fo
 Lancamentos promissores para `windows`:
 
 ```prolog
-consulta_3(Resultados).
+recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome), ano(Jogo, Ano).
 ```
 
 Resposta esperada:
 
 ```prolog
-Resultados = [Black Myth: Wukong-2024, ELDEN RING-2022, Baldur's Gate 3-2023 | ...].
+Jogo = app_2358720,
+Nome = 'Black Myth: Wukong',
+Ano = 2024 ;
 ```
 
 ### Consulta 4
@@ -246,13 +252,16 @@ Resultados = [Black Myth: Wukong-2024, ELDEN RING-2022, Baldur's Gate 3-2023 | .
 Melhor jogo de `rpg` segundo os criterios da base:
 
 ```prolog
-consulta_4(Resultado).
+melhor_do_genero(rpg, Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade).
 ```
 
 Resposta esperada:
 
 ```prolog
-Resultado = Persona 4 Golden-97-64224.
+Jogo = app_1113000,
+Nome = 'Persona 4 Golden',
+Nota = 97,
+Popularidade = 64224.
 ```
 
 ### Consulta 5
@@ -260,13 +269,16 @@ Resultado = Persona 4 Golden-97-64224.
 Destaques absolutos da base:
 
 ```prolog
-consulta_5(Resultados).
+recomendado_destaque(Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade).
 ```
 
 Resposta esperada:
 
 ```prolog
-Resultados = [Terraria-97-1102434, Garry's Mod-96-985010, Black Myth: Wukong-96-825621 | ...].
+Jogo = app_105600,
+Nome = 'Terraria',
+Nota = 97,
+Popularidade = 1102434 ;
 ```
 
 ### Consulta extra
@@ -284,6 +296,8 @@ Top3 = [99-37057-HoloCure - Save the Fans!, 99-10014-Papa's Freezeria Deluxe, 99
 ```
 
 Essa consulta extra reforca o criterio de sofisticacao porque usa ordenacao com `setof/3`, comparacao numerica e composicao de regras.
+
+As consultas auxiliares `consulta_1/1` ate `consulta_5/1`, definidas em `prolog/src/queries.pl`, continuam disponiveis para demonstracao com listas agregadas.
 
 ## Dicas de uso no SWI-Prolog
 

@@ -1,75 +1,21 @@
-% Consultas executaveis para demonstracao do projeto.
+% Consultas sugeridas para demonstracao do projeto.
 % Carregue o projeto com:
 % ?- consult('prolog/main.pl').
 
-:- use_module(library(lists)).
+% 1. Quais jogos de action para windows sao recomendados?
+% ?- recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome).
 
-consulta_1(Resultados) :-
-    findall(
-        Nome,
-        (
-            recomendado_por_genero_e_plataforma(Jogo, action, windows),
-            nome(Jogo, Nome)
-        ),
-        Resultados
-    ).
+% 2. Quais jogos possuem bom custo-beneficio?
+% ?- recomendado_custo_beneficio(Jogo), nome(Jogo, Nome), preco(Jogo, Preco), avaliacao(Jogo, Nota).
 
-consulta_2(Resultados) :-
-    findall(
-        Nome-Preco-Nota,
-        (
-            recomendado_custo_beneficio(Jogo),
-            nome(Jogo, Nome),
-            preco(Jogo, Preco),
-            avaliacao(Jogo, Nota)
-        ),
-        Resultados
-    ).
+% 3. Quais lancamentos promissores existem para windows?
+% ?- recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome), ano(Jogo, Ano).
 
-consulta_3(Resultados) :-
-    findall(
-        Nome-Ano,
-        (
-            recomendado_lancamento_promissor(Jogo, windows),
-            nome(Jogo, Nome),
-            ano(Jogo, Ano)
-        ),
-        Resultados
-    ).
+% 4. Qual e o melhor jogo do genero rpg?
+% ?- melhor_do_genero(rpg, Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade).
 
-consulta_4(Nome-Nota-Popularidade) :-
-    melhor_do_genero(rpg, Jogo),
-    nome(Jogo, Nome),
-    avaliacao(Jogo, Nota),
-    popularidade(Jogo, Popularidade).
+% 5. Quais jogos sao destaques absolutos da base?
+% ?- recomendado_destaque(Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade).
 
-consulta_5(Resultados) :-
-    findall(
-        Nome-Nota-Popularidade,
-        (
-            recomendado_destaque(Jogo),
-            nome(Jogo, Nome),
-            avaliacao(Jogo, Nota),
-            popularidade(Jogo, Popularidade)
-        ),
-        Resultados
-    ).
-
-ranking_genero(Genero, RankingDesc) :-
-    setof(
-        Nota-Popularidade-Nome,
-        Jogo^(
-            genero(Jogo, Genero),
-            jogo_popular(Jogo),
-            nome(Jogo, Nome),
-            avaliacao(Jogo, Nota),
-            popularidade(Jogo, Popularidade)
-        ),
-        RankingAsc
-    ),
-    reverse(RankingAsc, RankingDesc).
-
-top_3_do_genero(Genero, Top3) :-
-    ranking_genero(Genero, Ranking),
-    length(Top3, 3),
-    append(Top3, _, Ranking).
+% Consulta extra para reforcar sofisticacao:
+% ?- top_3_do_genero(action, Top3).
