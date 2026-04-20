@@ -25,7 +25,7 @@ recomendado_por_genero_e_plataforma(Jogo, Genero, Plataforma)
 ### Consulta sugerida para apresentacao
 
 ```prolog
-recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome)
+findall(Nome, (recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome)), Lista)
 ```
 
 ## Pergunta 2
@@ -49,7 +49,7 @@ recomendado_custo_beneficio(Jogo)
 ### Consulta sugerida para apresentacao
 
 ```prolog
-recomendado_custo_beneficio(Jogo), nome(Jogo, Nome), preco(Jogo, Preco), avaliacao(Jogo, Nota)
+findall(Nome-Preco-Nota, (recomendado_custo_beneficio(Jogo), nome(Jogo, Nome), preco(Jogo, Preco), avaliacao(Jogo, Nota)), Lista)
 ```
 
 ## Pergunta 3
@@ -74,7 +74,7 @@ recomendado_lancamento_promissor(Jogo, Plataforma)
 ### Consulta sugerida para apresentacao
 
 ```prolog
-recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome), ano(Jogo, Ano)
+findall(Nome-Ano, (recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome), ano(Jogo, Ano)), Lista)
 ```
 
 ## Pergunta 4
@@ -124,38 +124,62 @@ recomendado_destaque(Jogo)
 ### Consulta sugerida para apresentacao
 
 ```prolog
-recomendado_destaque(Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade)
+findall(Nome-Nota-Popularidade, (recomendado_destaque(Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade)), Lista)
 ```
 
-## Consulta extra para fortalecer a entrega
+## Pergunta 6
 
-Quais sao os jogos mais fortes de um genero quando ordenamos os candidatos por avaliacao e popularidade?
+Como um jogo especifico se classifica na base?
 
 ### Ideia logica
 
-Essa consulta adiciona ordenacao explicita sobre a base:
+Essa pergunta agrega varios rotulos logicos para o mesmo jogo:
 
-- seleciona apenas jogos populares do genero informado;
-- monta tuplas com nota, popularidade e nome;
-- usa `setof/3` para gerar uma lista ordenada;
-- inverte a ordem para destacar os melhores primeiro.
+- avalia o jogo contra varios predicados auxiliares;
+- transforma as condicoes verdadeiras em classificacoes simbolicas;
+- usa `setof/3` para devolver uma lista ordenada e sem repeticoes.
 
-### Predicados
+### Predicado principal
 
 ```prolog
-ranking_genero(Genero, RankingDesc)
-top_3_do_genero(Genero, Top3)
+classificacao_jogo(Jogo, Classificacao)
 ```
 
-## Observacao
+### Consulta sugerida para apresentacao
 
-As perguntas principais demonstram:
+```prolog
+setof(Classificacao, Jogo^(nome(Jogo, 'Black Myth: Wukong'), classificacao_jogo(Jogo, Classificacao)), Lista)
+```
+
+## Pergunta 7
+
+Qual e o pior jogo de um genero segundo a base?
+
+### Ideia logica
+
+Essa pergunta espelha a busca pelo melhor jogo, mas agora procura o pior candidato:
+
+- pertence ao genero consultado;
+- nao existe outro jogo do mesmo genero com avaliacao ainda menor;
+- em caso de empate, vence o menos popular.
+
+### Predicado principal
+
+```prolog
+pior_do_genero(Genero, Jogo)
+```
+
+### Consulta sugerida para apresentacao
+
+```prolog
+pior_do_genero(rpg, Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade)
+```
+
+## Observacao final
+
+As perguntas do projeto demonstram:
 
 - composicao de regras;
 - comparacao numerica;
 - uso de predicados auxiliares;
 - selecao por multiplos criterios.
-
-A consulta extra reforca o criterio de sofisticacao ao incluir ordenacao declarativa com Prolog.
-
-As consultas auxiliares `consulta_1/1` ate `consulta_5/1` continuam uteis para gerar listas agregadas durante testes e demonstracoes.
