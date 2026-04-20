@@ -62,11 +62,15 @@ projeto/
 │   └── generate_prolog.py
 │
 ├── prolog/
-│   ├── base_conhecimento.pl
-│   ├── regras.pl
-│   └── queries.pl
+│   ├── generated/
+│   │   └── base_conhecimento.pl
+│   ├── src/
+│   │   ├── regras.pl
+│   │   └── queries.pl
+│   └── main.pl
 │
 ├── docs/
+│   ├── arquitetura.md
 │   ├── dataset.md
 │   ├── perguntas.md
 │   └── decisoes.md
@@ -111,9 +115,9 @@ Script Python responsavel por:
 
 - ler `data/processed/games_clean.csv`;
 - transformar cada jogo em fatos Prolog;
-- gerar ou atualizar `prolog/base_conhecimento.pl`.
+- gerar ou atualizar `prolog/generated/base_conhecimento.pl`.
 
-### `prolog/base_conhecimento.pl`
+### `prolog/generated/base_conhecimento.pl`
 
 Arquivo com os fatos Prolog gerados automaticamente.
 
@@ -130,7 +134,7 @@ publisher(hades, supergiant_games).
 popularidade(hades, 120000).
 ```
 
-### `prolog/regras.pl`
+### `prolog/src/regras.pl`
 
 Arquivo com as regras logicas do recomendador.
 
@@ -150,7 +154,7 @@ recomendado_custo_beneficio(Jogo) :-
     jogo_barato(Jogo).
 ```
 
-### `prolog/queries.pl`
+### `prolog/src/queries.pl`
 
 Arquivo com perguntas de exemplo para testar o sistema.
 
@@ -164,6 +168,16 @@ Exemplos:
 % genero(Jogo, rpg), jogo_bem_avaliado(Jogo), nome(Jogo, Nome).
 ```
 
+### `prolog/main.pl`
+
+Arquivo principal para carregar toda a base Prolog do projeto.
+
+Ele deve consultar:
+
+- a base gerada em `prolog/generated/`;
+- as regras em `prolog/src/`;
+- as queries em `prolog/src/`.
+
 ### `docs/dataset.md`
 
 Anotacoes sobre o dataset usado:
@@ -174,6 +188,10 @@ Anotacoes sobre o dataset usado:
 - campos originais;
 - campos selecionados;
 - criterios de limpeza.
+
+### `docs/arquitetura.md`
+
+Documento com a explicacao da arquitetura do projeto e da separacao entre ETL, base gerada e logica escrita manualmente.
 
 ### `docs/perguntas.md`
 
@@ -189,10 +207,6 @@ Registro das principais decisoes do projeto, como:
 - criterios para considerar um jogo barato;
 - criterios para considerar um jogo bem avaliado;
 - regras de recomendacao adotadas.
-
-### `PROJETO_IA.md`
-
-Arquivo de contexto para orientar uma IA ou assistente de codigo sobre o projeto, sua arquitetura e proximos passos.
 
 ## Campos Sugeridos
 
@@ -210,7 +224,7 @@ Uma selecao inicial equilibrada entre variaveis qualitativas e quantitativas:
 | `publisher` | qualitativo | afinidade com empresa |
 | `popularidade` | quantitativo | numero de avaliacoes ou reviews |
 
-## Ordem Recomendada de Implementacao
+## Passos pensados para fazer atividade
 
 1. Escolher o dataset publico de jogos.
 2. Colocar o arquivo original em `data/raw/games.csv`.
@@ -218,9 +232,9 @@ Uma selecao inicial equilibrada entre variaveis qualitativas e quantitativas:
 4. Implementar `etl/clean_dataset.py`.
 5. Gerar `data/processed/games_clean.csv`.
 6. Implementar `etl/generate_prolog.py`.
-7. Gerar `prolog/base_conhecimento.pl`.
-8. Implementar regras em `prolog/regras.pl`.
-9. Escrever pelo menos 3 perguntas em `prolog/queries.pl`.
+7. Gerar `prolog/generated/base_conhecimento.pl`.
+8. Implementar regras em `prolog/src/regras.pl`.
+9. Escrever pelo menos 3 perguntas em `prolog/src/queries.pl`.
 10. Documentar dataset, perguntas e decisoes em `docs/`.
 
 ## Como Executar
@@ -251,17 +265,17 @@ uv run python etl/generate_prolog.py
 No SWI-Prolog:
 
 ```prolog
-consult('prolog/regras.pl').
+consult('prolog/main.pl').
 ```
 
-Depois execute as queries documentadas em `prolog/queries.pl`.
+Depois execute as queries documentadas em `prolog/src/queries.pl`.
 
 ## Boas Praticas
 
 - Manter `data/raw/games.csv` sem alteracoes manuais.
 - Gerar `data/processed/games_clean.csv` sempre via ETL.
-- Gerar `prolog/base_conhecimento.pl` automaticamente.
-- Separar fatos, regras e queries em arquivos diferentes.
+- Gerar `prolog/generated/base_conhecimento.pl` automaticamente.
+- Separar arquivos gerados de arquivos escritos manualmente.
 - Usar nomes normalizados para identificadores Prolog.
 - Criar regras compostas, nao apenas filtros simples.
 - Manter a arquitetura pequena, clara e facil de apresentar.

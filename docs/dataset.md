@@ -91,5 +91,5 @@ O ETL gerou:
 
 ```text
 27647 registros em data/processed/games_clean.csv
-27647 jogos exportados para prolog/base_conhecimento.pl
+27647 jogos exportados para prolog/generated/base_conhecimento.pl
 ```
