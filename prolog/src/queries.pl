@@ -3,19 +3,22 @@
 % ?- consult('prolog/main.pl').
 
 % 1. Quais jogos de action para windows sao recomendados?
-% ?- recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome).
+% ?- findall(Nome, (recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome)), Lista).
 
 % 2. Quais jogos possuem bom custo-beneficio?
-% ?- recomendado_custo_beneficio(Jogo), nome(Jogo, Nome), preco(Jogo, Preco), avaliacao(Jogo, Nota).
+% ?- findall(Nome-Preco-Nota, (recomendado_custo_beneficio(Jogo), nome(Jogo, Nome), preco(Jogo, Preco), avaliacao(Jogo, Nota)), Lista).
 
 % 3. Quais lancamentos promissores existem para windows?
-% ?- recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome), ano(Jogo, Ano).
+% ?- findall(Nome-Ano, (recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome), ano(Jogo, Ano)), Lista).
 
 % 4. Qual e o melhor jogo do genero rpg?
 % ?- melhor_do_genero(rpg, Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade).
 
 % 5. Quais jogos sao destaques absolutos da base?
-% ?- recomendado_destaque(Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade).
+% ?- findall(Nome-Nota-Popularidade, (recomendado_destaque(Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade)), Lista).
 
-% Consulta extra para reforcar sofisticacao:
-% ?- top_3_do_genero(action, Top3).
+% 6. Como um jogo especifico se classifica na base?
+% ?- setof(Classificacao, Jogo^(nome(Jogo, 'Black Myth: Wukong'), classificacao_jogo(Jogo, Classificacao)), Lista).
+
+% 7. Qual e o pior jogo do genero rpg?
+% ?- pior_do_genero(rpg, Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade).

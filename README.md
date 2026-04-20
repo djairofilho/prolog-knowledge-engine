@@ -191,6 +191,7 @@ Alguns criterios da base:
 - `jogo_barato/1`: preco menor ou igual a `20`;
 - `jogo_preco_intermediario/1`: preco entre `20` e `50`;
 - `jogo_bem_avaliado/1`: nota maior ou igual a `85`;
+- `jogo_mal_avaliado/1`: nota menor ou igual a `50`;
 - `jogo_popular/1`: popularidade maior ou igual a `5000`;
 - `jogo_muito_popular/1`: popularidade maior ou igual a `50000`;
 - `jogo_recente/1`: ano maior ou igual a `2022`.
@@ -204,14 +205,13 @@ As consultas abaixo podem ser executadas diretamente no prompt do Prolog.
 Jogos `action` para `windows` recomendados pela base:
 
 ```prolog
-recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome).
+findall(Nome, (recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome)), Lista).
 ```
 
 Resposta esperada:
 
 ```prolog
-Jogo = app_730,
-Nome = 'Counter-Strike 2' ;
+Lista = ['Counter-Strike 2', 'Grand Theft Auto V Legacy', 'Team Fortress 2' | ...].
 ```
 
 ### Consulta 2
@@ -219,16 +219,13 @@ Nome = 'Counter-Strike 2' ;
 Jogos com bom custo-beneficio:
 
 ```prolog
-recomendado_custo_beneficio(Jogo), nome(Jogo, Nome), preco(Jogo, Preco), avaliacao(Jogo, Nota).
+findall(Nome-Preco-Nota, (recomendado_custo_beneficio(Jogo), nome(Jogo, Nome), preco(Jogo, Preco), avaliacao(Jogo, Nota)), Lista).
 ```
 
 Resposta esperada:
 
 ```prolog
-Jogo = app_730,
-Nome = 'Counter-Strike 2',
-Preco = 0.0,
-Nota = 86 ;
+Lista = ['Counter-Strike 2'-0.0-86, 'Grand Theft Auto V Legacy'-0.0-87, 'Team Fortress 2'-0.0-89 | ...].
 ```
 
 ### Consulta 3
@@ -236,15 +233,13 @@ Nota = 86 ;
 Lancamentos promissores para `windows`:
 
 ```prolog
-recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome), ano(Jogo, Ano).
+findall(Nome-Ano, (recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome), ano(Jogo, Ano)), Lista).
 ```
 
 Resposta esperada:
 
 ```prolog
-Jogo = app_2358720,
-Nome = 'Black Myth: Wukong',
-Ano = 2024 ;
+Lista = ['Black Myth: Wukong'-2024, 'ELDEN RING'-2022, 'Baldur''s Gate 3'-2023 | ...].
 ```
 
 ### Consulta 4
@@ -269,16 +264,44 @@ Popularidade = 64224.
 Destaques absolutos da base:
 
 ```prolog
-recomendado_destaque(Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade).
+findall(Nome-Nota-Popularidade, (recomendado_destaque(Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade)), Lista).
 ```
 
 Resposta esperada:
 
 ```prolog
-Jogo = app_105600,
-Nome = 'Terraria',
-Nota = 97,
-Popularidade = 1102434 ;
+Lista = ['Terraria'-97-1102434, 'Garry''s Mod'-96-985010, 'Black Myth: Wukong'-96-825621 | ...].
+```
+
+### Consulta 6
+
+Como um jogo especifico se classifica na base:
+
+```prolog
+setof(Classificacao, Jogo^(nome(Jogo, 'Black Myth: Wukong'), classificacao_jogo(Jogo, Classificacao)), Lista).
+```
+
+Resposta esperada:
+
+```prolog
+Lista = [bem_avaliado, destaque, excelente, muito_popular, popular, recente].
+```
+
+### Consulta 7
+
+Pior jogo de `rpg` segundo os criterios da base:
+
+```prolog
+pior_do_genero(rpg, Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade).
+```
+
+Resposta esperada:
+
+```prolog
+Jogo = app_305840,
+Nome = 'Shallow Space',
+Nota = 23,
+Popularidade = 181.
 ```
 
 As consultas acima sao as mesmas documentadas em `prolog/src/queries.pl`, para facilitar a demonstracao no SWI-Prolog.
