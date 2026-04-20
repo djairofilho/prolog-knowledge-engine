@@ -43,6 +43,7 @@ projeto/
 │       └── games_clean.csv
 │
 ├── etl/
+│   ├── download_dataset.py
 │   ├── clean_dataset.py
 │   └── generate_prolog.py
 │
@@ -84,6 +85,12 @@ Script Python responsavel por:
 - padronizar textos;
 - converter dados numericos;
 - gerar `data/processed/games_clean.csv`.
+
+### `etl/download_dataset.py`
+
+Script Python responsavel por baixar o arquivo `games_march2025_cleaned.csv` do dataset da Kaggle para `data/raw/`.
+
+O dataset bruto e grande, por isso nao deve ser versionado no Git.
 
 ### `etl/generate_prolog.py`
 
@@ -205,7 +212,19 @@ Uma selecao inicial equilibrada entre variaveis qualitativas e quantitativas:
 
 ## Como Executar
 
-Depois que os scripts forem implementados:
+Instale as dependencias:
+
+```bash
+pip install -r requirements.txt
+```
+
+Baixe o CSV bruto da Kaggle:
+
+```bash
+python etl/download_dataset.py
+```
+
+Gere o CSV tratado e a base Prolog:
 
 ```bash
 python etl/clean_dataset.py
@@ -229,4 +248,3 @@ Depois execute as queries documentadas em `prolog/queries.pl`.
 - Usar nomes normalizados para identificadores Prolog.
 - Criar regras compostas, nao apenas filtros simples.
 - Manter a arquitetura pequena, clara e facil de apresentar.
-
