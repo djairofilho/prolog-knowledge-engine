@@ -1,0 +1,36 @@
+# Arquivos de contexto para IA
+PROJETO_IA.md
+AI.md
+IA.md
+CLAUDE.md
+GEMINI.md
+AGENTS.md
+
+# Pastas e configuracoes de agentes/assistentes locais
+.codex/
+.agents/
+.cursor/
+.continue/
+.aider*
+.claude/
+.gemini/
+
+# Historicos, logs e caches de ferramentas de IA
+*.chat.md
+*.prompt.md
+*.prompts.md
+*.ai.md
+*.ia.md
+*.llm.md
+*.agent.md
+ai-notes/
+ia-notes/
+prompts/
+agent-output/
+llm-output/
+
+# Arquivos temporarios gerados por assistentes
+*.bak
+*.tmp
+*.temp
+*.log
