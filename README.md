@@ -281,23 +281,7 @@ Nota = 97,
 Popularidade = 1102434 ;
 ```
 
-### Consulta extra
-
-Top 3 jogos de um genero com ordenacao declarativa:
-
-```prolog
-top_3_do_genero(action, Top3).
-```
-
-Resposta esperada:
-
-```prolog
-Top3 = [99-37057-HoloCure - Save the Fans!, 99-10014-Papa's Freezeria Deluxe, 99-9221-The WereCleaner].
-```
-
-Essa consulta extra reforca o criterio de sofisticacao porque usa ordenacao com `setof/3`, comparacao numerica e composicao de regras.
-
-As consultas auxiliares `consulta_1/1` ate `consulta_5/1`, definidas em `prolog/src/queries.pl`, continuam disponiveis para demonstracao com listas agregadas.
+As consultas acima sao as mesmas documentadas em `prolog/src/queries.pl`, para facilitar a demonstracao no SWI-Prolog.
 
 ## Dicas de uso no SWI-Prolog
 
