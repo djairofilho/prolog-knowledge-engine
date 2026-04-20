@@ -270,6 +270,96 @@ consult('prolog/main.pl').
 
 Depois execute as queries documentadas em `prolog/src/queries.pl`.
 
+Em modo de linha de comando, um comando valido e:
+
+```bash
+swipl -q -s prolog/main.pl
+```
+
+## Como Executar as Queries
+
+1. Abra o projeto no terminal.
+2. Inicie o SWI-Prolog:
+
+```bash
+swipl -q -s prolog/main.pl
+```
+
+3. No prompt do Prolog, execute consultas como estas:
+
+```prolog
+recomendado_custo_beneficio(Jogo), nome(Jogo, Nome).
+```
+
+Resposta esperada:
+
+```prolog
+Jogo = app_730,
+Nome = 'Counter-Strike 2' ;
+```
+
+```prolog
+recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome).
+```
+
+Resposta esperada:
+
+```prolog
+Jogo = app_730,
+Nome = 'Counter-Strike 2' ;
+```
+
+```prolog
+recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome).
+```
+
+Resposta esperada:
+
+```prolog
+Jogo = app_730449,
+Nome = 'Black Myth: Wukong' ;
+```
+
+```prolog
+melhor_do_genero(rpg, Jogo), nome(Jogo, Nome).
+```
+
+Resposta esperada:
+
+```prolog
+Jogo = app_1113000,
+Nome = 'Persona 4 Golden'.
+```
+
+```prolog
+recomendado_destaque(Jogo), nome(Jogo, Nome).
+```
+
+Resposta esperada:
+
+```prolog
+Jogo = app_105600,
+Nome = 'Terraria' ;
+```
+
+Observacao:
+
+- o Prolog normalmente mostra uma resposta por vez;
+- digite `;` para pedir a proxima;
+- pressione Enter para encerrar a consulta atual.
+
+4. Para recarregar os arquivos depois de alguma alteracao:
+
+```prolog
+make.
+```
+
+5. Para sair do SWI-Prolog:
+
+```prolog
+halt.
+```
+
 ## Boas Praticas
 
 - Manter `data/raw/games.csv` sem alteracoes manuais.
