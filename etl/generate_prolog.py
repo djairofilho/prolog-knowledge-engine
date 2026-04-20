@@ -9,7 +9,7 @@ import pandas as pd
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 INPUT_FILE = ROOT_DIR / "data" / "processed" / "games_clean.csv"
-OUTPUT_FILE = ROOT_DIR / "prolog" / "base_conhecimento.pl"
+OUTPUT_FILE = ROOT_DIR / "prolog" / "generated" / "base_conhecimento.pl"
 
 
 def normalize_atom(value: object, prefix: str = "x") -> str:
@@ -70,6 +70,7 @@ def main() -> None:
         write_fact(lines, "popularidade", jogo, int(row.popularidade))
         lines.append("")
 
+    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE.write_text("\n".join(lines), encoding="utf-8")
 
     print(f"Jogos exportados: {len(df)}")
