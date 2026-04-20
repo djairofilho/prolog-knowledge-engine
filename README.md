@@ -10,6 +10,20 @@ Sistema de recomendacao de jogos usando Prolog.
 
 O sistema utiliza atributos como genero, preco, avaliacao, ano, plataforma, publisher e popularidade para recomendar jogos com base em regras declarativas.
 
+## Fonte dos Dados
+
+Dataset utilizado:
+
+[Steam Games Dataset 2025 (Kaggle)](https://www.kaggle.com/datasets/artermiloff/steam-games-dataset)
+
+Tabela-fonte utilizada no projeto:
+
+```text
+games_march2025_cleaned.csv
+```
+
+Esse arquivo pertence ao dataset acima e foi escolhido como fonte unica da base de conhecimento.
+
 ## Arquitetura
 
 Fluxo principal do projeto:
@@ -57,7 +71,6 @@ projeto/
 │   ├── perguntas.md
 │   └── decisoes.md
 │
-├── PROJETO_IA.md
 └── README.md
 ```
 
@@ -212,23 +225,27 @@ Uma selecao inicial equilibrada entre variaveis qualitativas e quantitativas:
 
 ## Como Executar
 
-Instale as dependencias:
+Sincronize o ambiente com `uv`:
 
 ```bash
-pip install -r requirements.txt
+uv sync
 ```
 
 Baixe o CSV bruto da Kaggle:
 
 ```bash
-python etl/download_dataset.py
+uv run python etl/download_dataset.py
 ```
+
+Fonte oficial do dataset:
+
+[Steam Games Dataset 2025 (Kaggle)](https://www.kaggle.com/datasets/artermiloff/steam-games-dataset)
 
 Gere o CSV tratado e a base Prolog:
 
 ```bash
-python etl/clean_dataset.py
-python etl/generate_prolog.py
+uv run python etl/clean_dataset.py
+uv run python etl/generate_prolog.py
 ```
 
 No SWI-Prolog:

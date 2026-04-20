@@ -1,0 +1,13 @@
+[project]
+name = "knowledge-engine-jogos"
+version = "0.1.0"
+description = "Knowledge Engine academico para recomendacao de jogos com ETL em Python e base em Prolog."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "kagglehub>=1.0.0",
+    "pandas>=3.0.0",
+]
+
+[tool.uv]
+package = false
