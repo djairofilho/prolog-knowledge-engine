@@ -12,7 +12,7 @@ jogo_preco_intermediario(Jogo) :-
 
 jogo_bem_avaliado(Jogo) :-
     avaliacao(Jogo, Nota),
-    Nota >= 80.
+    Nota >= 85.
 
 jogo_excelente(Jogo) :-
     avaliacao(Jogo, Nota),
@@ -20,15 +20,15 @@ jogo_excelente(Jogo) :-
 
 jogo_popular(Jogo) :-
     popularidade(Jogo, Popularidade),
-    Popularidade >= 10000.
+    Popularidade >= 5000.
 
 jogo_muito_popular(Jogo) :-
     popularidade(Jogo, Popularidade),
-    Popularidade >= 100000.
+    Popularidade >= 50000.
 
 jogo_recente(Jogo) :-
     ano(Jogo, Ano),
-    Ano >= 2020.
+    Ano >= 2022.
 
 jogo_classico(Jogo) :-
     ano(Jogo, Ano),
@@ -79,8 +79,10 @@ recomendado_destaque(Jogo) :-
 
 melhor_do_genero(Genero, Jogo) :-
     genero(Jogo, Genero),
+    jogo_popular(Jogo),
     \+ (
         genero(OutroJogo, Genero),
+        jogo_popular(OutroJogo),
         OutroJogo \= Jogo,
         (
             melhor_avaliado_que(OutroJogo, Jogo)
