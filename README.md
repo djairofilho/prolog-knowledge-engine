@@ -10,6 +10,20 @@ Sistema de recomendacao de jogos usando Prolog.
 
 O sistema utiliza atributos como genero, preco, avaliacao, ano, plataforma, publisher e popularidade para recomendar jogos com base em regras declarativas.
 
+## Fonte dos Dados
+
+Dataset utilizado:
+
+[Steam Games Dataset 2025 (Kaggle)](https://www.kaggle.com/datasets/artermiloff/steam-games-dataset)
+
+Tabela-fonte utilizada no projeto:
+
+```text
+games_march2025_cleaned.csv
+```
+
+Esse arquivo pertence ao dataset acima e foi escolhido como fonte unica da base de conhecimento.
+
 ## Arquitetura
 
 Fluxo principal do projeto:
@@ -43,6 +57,7 @@ projeto/
 │       └── games_clean.csv
 │
 ├── etl/
+│   ├── download_dataset.py
 │   ├── clean_dataset.py
 │   └── generate_prolog.py
 │
@@ -56,7 +71,6 @@ projeto/
 │   ├── perguntas.md
 │   └── decisoes.md
 │
-├── PROJETO_IA.md
 └── README.md
 ```
 
@@ -84,6 +98,12 @@ Script Python responsavel por:
 - padronizar textos;
 - converter dados numericos;
 - gerar `data/processed/games_clean.csv`.
+
+### `etl/download_dataset.py`
+
+Script Python responsavel por baixar o arquivo `games_march2025_cleaned.csv` do dataset da Kaggle para `data/raw/`.
+
+O dataset bruto e grande, por isso nao deve ser versionado no Git.
 
 ### `etl/generate_prolog.py`
 
@@ -205,11 +225,27 @@ Uma selecao inicial equilibrada entre variaveis qualitativas e quantitativas:
 
 ## Como Executar
 
-Depois que os scripts forem implementados:
+Sincronize o ambiente com `uv`:
 
 ```bash
-python etl/clean_dataset.py
-python etl/generate_prolog.py
+uv sync
+```
+
+Baixe o CSV bruto da Kaggle:
+
+```bash
+uv run python etl/download_dataset.py
+```
+
+Fonte oficial do dataset:
+
+[Steam Games Dataset 2025 (Kaggle)](https://www.kaggle.com/datasets/artermiloff/steam-games-dataset)
+
+Gere o CSV tratado e a base Prolog:
+
+```bash
+uv run python etl/clean_dataset.py
+uv run python etl/generate_prolog.py
 ```
 
 No SWI-Prolog:
@@ -229,4 +265,3 @@ Depois execute as queries documentadas em `prolog/queries.pl`.
 - Usar nomes normalizados para identificadores Prolog.
 - Criar regras compostas, nao apenas filtros simples.
 - Manter a arquitetura pequena, clara e facil de apresentar.
-

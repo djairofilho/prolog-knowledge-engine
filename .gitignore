@@ -34,3 +34,10 @@ llm-output/
 *.tmp
 *.temp
 *.log
+__pycache__/
+*.py[cod]
+.venv/
+
+# Datasets grandes gerados/baixados localmente
+data/raw/*.csv
+data/raw/.complete/
