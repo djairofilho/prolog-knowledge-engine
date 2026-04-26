@@ -205,6 +205,12 @@ As consultas abaixo podem ser executadas diretamente no prompt do Prolog.
 Jogos `action` para `windows` recomendados pela base:
 
 ```prolog
+query1(Lista).
+```
+
+Executa em Prolog:
+
+```prolog
 findall(Nome, (recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome)), Lista).
 ```
 
