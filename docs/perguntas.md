@@ -25,6 +25,12 @@ recomendado_por_genero_e_plataforma(Jogo, Genero, Plataforma)
 ### Consulta sugerida para apresentacao
 
 ```prolog
+query1(Lista)
+```
+
+### O que ela executa em Prolog
+
+```prolog
 findall(Nome, (recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome)), Lista)
 ```
 
