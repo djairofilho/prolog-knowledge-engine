@@ -200,111 +200,159 @@ Alguns criterios da base:
 
 As consultas abaixo podem ser executadas diretamente no prompt do Prolog.
 
-### Consulta 1
+### Pergunta 1
 
-Jogos `action` para `windows` recomendados pela base:
+Jogos `action` para `windows` recomendados pela base.
+
+Nome da query:
 
 ```prolog
-query1(Lista).
+recomendados_action_windows(Lista).
 ```
 
-Executa em Prolog:
+Por dentro da query:
 
 ```prolog
 findall(Nome, (recomendado_por_genero_e_plataforma(Jogo, action, windows), nome(Jogo, Nome)), Lista).
 ```
 
-Resposta esperada:
+Resultado da query:
 
 ```prolog
 Lista = ['Counter-Strike 2', 'Grand Theft Auto V Legacy', 'Team Fortress 2' | ...].
 ```
 
-### Consulta 2
+### Pergunta 2
 
-Jogos com bom custo-beneficio:
+Quais jogos possuem bom custo-beneficio.
+
+Nome da query:
+
+```prolog
+recomendados_custo_beneficio(Lista).
+```
+
+Por dentro da query:
 
 ```prolog
 findall(Nome-Preco-Nota, (recomendado_custo_beneficio(Jogo), nome(Jogo, Nome), preco(Jogo, Preco), avaliacao(Jogo, Nota)), Lista).
 ```
 
-Resposta esperada:
+Resultado da query:
 
 ```prolog
 Lista = ['Counter-Strike 2'-0.0-86, 'Grand Theft Auto V Legacy'-0.0-87, 'Team Fortress 2'-0.0-89 | ...].
 ```
 
-### Consulta 3
+### Pergunta 3
 
-Lancamentos promissores para `windows`:
+Quais lancamentos promissores existem para `windows`.
+
+Nome da query:
+
+```prolog
+lancamentos_promissores_windows(Lista).
+```
+
+Por dentro da query:
 
 ```prolog
 findall(Nome-Ano, (recomendado_lancamento_promissor(Jogo, windows), nome(Jogo, Nome), ano(Jogo, Ano)), Lista).
 ```
 
-Resposta esperada:
+Resultado da query:
 
 ```prolog
 Lista = ['Black Myth: Wukong'-2024, 'ELDEN RING'-2022, 'Baldur''s Gate 3'-2023 | ...].
 ```
 
-### Consulta 4
+### Pergunta 4
 
-Melhor jogo de `rpg` segundo os criterios da base:
+Qual e o melhor jogo de `rpg` segundo os criterios da base.
+
+Nome da query:
+
+```prolog
+melhor_jogo_rpg(Nome, Nota, Popularidade).
+```
+
+Por dentro da query:
 
 ```prolog
 melhor_do_genero(rpg, Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade).
 ```
 
-Resposta esperada:
+Resultado da query:
 
 ```prolog
-Jogo = app_1113000,
 Nome = 'Persona 4 Golden',
 Nota = 97,
 Popularidade = 64224.
 ```
 
-### Consulta 5
+### Pergunta 5
 
-Destaques absolutos da base:
+Quais jogos sao destaques absolutos da base.
+
+Nome da query:
+
+```prolog
+destaques_absolutos(Lista).
+```
+
+Por dentro da query:
 
 ```prolog
 findall(Nome-Nota-Popularidade, (recomendado_destaque(Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade)), Lista).
 ```
 
-Resposta esperada:
+Resultado da query:
 
 ```prolog
 Lista = ['Terraria'-97-1102434, 'Garry''s Mod'-96-985010, 'Black Myth: Wukong'-96-825621 | ...].
 ```
 
-### Consulta 6
+### Pergunta 6
 
-Como um jogo especifico se classifica na base:
+Como um jogo especifico se classifica na base.
+
+Nome da query:
+
+```prolog
+classificacoes_black_myth_wukong(Lista).
+```
+
+Por dentro da query:
 
 ```prolog
 setof(Classificacao, Jogo^(nome(Jogo, 'Black Myth: Wukong'), classificacao_jogo(Jogo, Classificacao)), Lista).
 ```
 
-Resposta esperada:
+Resultado da query:
 
 ```prolog
 Lista = [bem_avaliado, destaque, excelente, muito_popular, popular, recente].
 ```
 
-### Consulta 7
+### Pergunta 7
 
-Pior jogo de `rpg` segundo os criterios da base:
+Qual e o pior jogo de `rpg` segundo os criterios da base.
+
+Nome da query:
+
+```prolog
+pior_jogo_rpg(Nome, Nota, Popularidade).
+```
+
+Por dentro da query:
 
 ```prolog
 pior_do_genero(rpg, Jogo), nome(Jogo, Nome), avaliacao(Jogo, Nota), popularidade(Jogo, Popularidade).
 ```
 
-Resposta esperada:
+Resultado da query:
 
 ```prolog
-Jogo = app_305840,
 Nome = 'Shallow Space',
 Nota = 23,
 Popularidade = 181.
